@@ -14,11 +14,11 @@ import { GetUserQueryDto } from './dto/get-user-query.dto';
 import { GetOrDeleteUserParamsDto } from './dto/get-or-delete-user-params.dto';
 import { UpdateUserParamsDto } from './dto/update-user-params.dto';
 
-@Controller('users')
+@Controller()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
+  @Post('create')
   async createUser(@Body() user: CreateOrUpdateUserDto) {
     return await this.usersService.createUser(user);
   }
@@ -34,7 +34,7 @@ export class UsersController {
     });
   }
 
-  @Patch('/update/:id')
+  @Patch('update/:id')
   async updateUser(
     @Param() param: UpdateUserParamsDto,
     @Body() body: CreateOrUpdateUserDto,
@@ -43,7 +43,7 @@ export class UsersController {
     return await this.usersService.updateUser(id, body);
   }
 
-  @Delete('/delete/:id')
+  @Delete(['delete', 'delete/:id'])
   async deleteUser(@Param() param: GetOrDeleteUserParamsDto) {
     const { id } = param;
     return await this.usersService.deleteUser(id);
