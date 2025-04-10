@@ -1,0 +1,22 @@
+services:
+  mariadb:
+    container_name: ruly-mariadb
+    image: mariadb:latest
+    restart: always
+    volumes:
+      - mariadb-data:/var/lib/mysql:rw
+    ports:
+      - 127.0.0.1:${DB_PORT}:3306
+    environment:
+      - MARIADB_USER=${DB_USER}
+      - MARIADB_PASSWORD=${DB_PASSWORD}
+      - MARIADB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+    networks:
+      - ruly_net
+
+networks:
+  ruly_net:
+    driver: bridge
+
+volumes:
+  mariadb-data:
