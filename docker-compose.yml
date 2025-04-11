@@ -4,6 +4,8 @@ services:
       context: .
       dockerfile: ./Dockerfile
     restart: always
+    ports:
+      - 127.0.0.1:${APP_PORT}:3000
     networks:
       - ruly_net
 
