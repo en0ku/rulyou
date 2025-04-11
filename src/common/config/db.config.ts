@@ -21,6 +21,6 @@ export default registerAs(DATABASE_CONFIG_TOKEN, (): TypeOrmModuleOptions => {
         ? 'all'
         : ['error', 'schema', 'migration'],
     entities: [path.resolve(`${__dirname}/../../**/**.{entity,view}.{ts,js}`)],
-    migrations: ['../migrations/*{.ts,.js}'],
+    migrations: [path.resolve(`${__dirname}/../migrations/*{.ts,.js}`)],
   };
 });
