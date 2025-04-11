@@ -5,9 +5,7 @@ export interface User {
   efficiency: number;
 }
 export type UserWithoutId = Omit<User, 'id'>;
-export type FindUserFilters = Partial<
-  Pick<User, 'id' | 'full_name' | 'role' | 'efficiency'>
->;
+export type FindUserFilters = Partial<User>;
 export type UpdateUser = Partial<
   Pick<User, 'full_name' | 'role' | 'efficiency'>
 >;

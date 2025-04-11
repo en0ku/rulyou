@@ -28,10 +28,11 @@ export class UsersController {
     @Param() param?: GetOrDeleteUserParamsDto,
     @Query() query?: GetUserQueryDto,
   ) {
-    return await this.usersService.getUsers({
+    const users = await this.usersService.getUsers({
       ...param,
       ...query,
     });
+    return { users };
   }
 
   @Patch('update/:id')

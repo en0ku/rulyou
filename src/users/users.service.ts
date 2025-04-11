@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,7 +12,8 @@ export class UsersService {
 
   async createUser(user: UserWithoutId) {
     const entity = this.usersRepository.create(user);
-    return await this.usersRepository.save(entity);
+    const res = await this.usersRepository.save(entity);
+    return { id: res.id };
   }
 
   async getUsers(filters: FindUserFilters) {
@@ -22,10 +23,10 @@ export class UsersService {
   async updateUser(id: number, update: UpdateUser) {
     const isUserExists = await this.usersRepository.exists({ where: { id } });
     if (!isUserExists) {
-      throw new BadRequestException(`Пользователь с ID: ${id} не существует.`);
+      throw new NotFoundException(`Пользователь с ID: ${id} не существует.`);
     }
     await this.usersRepository.update({ id }, update);
-    return await this.usersRepository.find({ where: { id } });
+    return await this.usersRepository.findOne({ where: { id } });
   }
 
   async deleteUser(id?: number) {
@@ -36,7 +37,7 @@ export class UsersService {
 
     const user = await this.usersRepository.findOne({ where: { id } });
     if (!user) {
-      throw new BadRequestException(`Пользователь с ID: ${id} не существует.`);
+      throw new NotFoundException(`Пользователь с ID: ${id} не существует.`);
     }
     await this.usersRepository.delete({ id });
     return user;
